@@ -2,12 +2,7 @@
 
 A lightweight portable Windows utility designed to toggle shortcut overlay arrows on and off.
 
-It is completely native, contains _zero_ external dependencies, runs with a very low memory footprint, using 1.2 MB of ram for the GUI tool and 0.6* MB for the CLI tool, your numbers may vary. (*In the case of the CLI tool, Task Manager may show a larger number because of Console Window Host taking extra memory.)
-
-## Features
-* **Two Formats Available**:
-  * **`DeArrowGUI.exe`**: A minimalist, mouse-driven graphical interface (only 7.0 KB).
-  * **`DeArrowCLI.exe`**: An interactive command-line tool (only 6.5 KB).
+It is completely native to Windows, containing _zero_ external dependencies, thus able to run with a very low memory footprint, using 1.2 MB of ram for the GUI tool and 0.6* MB for the CLI tool, your numbers may vary.
 
 ## System Requirements
 * **Operating System**: Windows 7, Windows 8.1, Windows 10, or Windows 11.
@@ -15,6 +10,10 @@ It is completely native, contains _zero_ external dependencies, runs with a very
 * **Permissions**: Administrator privileges are _required_ for modifying system-wide icon configurations which requires writing to `HKEY_LOCAL_MACHINE`.
 
 ## How to Use
+
+* **Two Formats Available**:
+  * **`DeArrowGUI.exe`**: A simple graphical interface (only 7.5 KB).
+  * **`DeArrowCLI.exe`**: An interactive command-line tool (only 7.0 KB).
 
 ### Graphical User Interface (`DeArrowGUI.exe`)
 1. Run `DeArrowGUI.exe`.

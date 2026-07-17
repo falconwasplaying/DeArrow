@@ -6,10 +6,10 @@ It is completely native to Windows, containing _zero_ external dependencies, thu
 
 ## System Requirements
 * **Operating System**: Windows 7, Windows 8.1, Windows 10, or Windows 11.
-* **Architecture**: 64-bit (x86-64) only (will not run on 32-bit (x86-32) versions of Windows).
+* **Architecture**: 64-bit (x86-64) only for the GUI version, the CLI version will run on both 32-bit (x86-32) and 64-bit (x86-64) Windows versions.
 * **Permissions**: Administrator privileges are _required_ for modifying system-wide icon configurations which requires writing to `HKEY_LOCAL_MACHINE`.
 
-## How to Use
+## How to Use:
 
 * **Two Formats Available**:
   * **`DeArrowGUI.exe`**: A simple graphical interface (only 7.5 KB).

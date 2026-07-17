@@ -36,7 +36,7 @@ The project is built using GCC (MinGW-w64) in MSYS2.
 
 1. Clone the repository to your Windows machine.
 2. Open the folder where you've cloned the repository.
-3. Run the build script for the version you want:
-   * Run **`buildGUI.bat`** to compile the graphical application (`DeArrowGUI.exe`).
+3. Run **`build.bat`** to compile the app (`DeArrow.exe`).
+4. When done, press any key to exit.
 
 The build script is made to compile with important compiler flags (`-Os`, `-s`, `-ffunction-sections`, `-fdata-sections`, and custom entry points) to ensure the executable remains resourceful.

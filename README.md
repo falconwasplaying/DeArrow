@@ -1,8 +1,6 @@
 # DeArrow
 
-A lightweight portable Windows utility designed to toggle shortcut overlay arrows on and off.
-
-It is completely native to Windows, containing _zero_ external dependencies, thus able to run with a very low memory footprint, using 1.2 MB of ram for the GUI tool and 0.6 MB for the CLI tool, your numbers may vary.
+A simple lightweight portable Windows utility designed to toggle shortcut overlay arrows on and off, made to be as optimised as can be and is completely native to Windows, containing _zero_ external dependencies, thus only taking 7.5 KB of storage space for the GUI tool and 1.55 KB for the CLI tool, also able to run with a very low memory footprint, using 1.2 MB of ram for the GUI tool, your numbers may vary.
 
 ## System Requirements
 
@@ -14,7 +12,7 @@ It is completely native to Windows, containing _zero_ external dependencies, thu
 
 * **Two Formats Available**:
   * **`DeArrow.exe`**: A simple graphical interface (only 7.5 KB).
-  * **`DeArrowCLI.bat`**: An interactive command-line tool (only 1.53 KB).
+  * **`DeArrowCLI.bat`**: An interactive command-line tool (only 1.55 KB).
 
 ### Graphical User Interface (`DeArrowGUI.exe`)
 1. Run `DeArrowGUI.exe`.

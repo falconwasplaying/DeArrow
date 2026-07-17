@@ -2,7 +2,7 @@
 
 A lightweight portable Windows utility designed to toggle shortcut overlay arrows on and off.
 
-It is completely native to Windows, containing _zero_ external dependencies, thus able to run with a very low memory footprint, using 1.2 MB of ram for the GUI tool and 0.6* MB for the CLI tool, your numbers may vary.
+It is completely native to Windows, containing _zero_ external dependencies, thus able to run with a very low memory footprint, using 1.2 MB of ram for the GUI tool and 0.6 MB for the CLI tool, your numbers may vary.
 
 ## System Requirements
 * **Operating System**: Windows 7, Windows 8.1, Windows 10, or Windows 11.

@@ -16,9 +16,9 @@ echo ^> DeArrow CLI
 echo ^>^> Made by falconwasplaying
 echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 echo.
-echo Type 'remove' to hide shortcut arrows, or 'restore' to show them.
+echo ^> Type 'remove' to hide shortcut arrows, or 'restore' to show them.
 echo.
-set /p choice="Choice: "
+set /p choice="> Choice: "
 
 if /i "!choice!"=="remove" goto remove
 if /i "!choice!"=="restore" goto restore
@@ -31,7 +31,7 @@ goto menu
 reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /v "29" /t REG_SZ /d "shell32.dll,50" /f >nul 2>&1
 if %errorlevel% neq 0 (
     echo.
-    echo Error: Failed to write registry value.
+    echo ERROR: Failed to write registry value.
     goto end
 )
 goto success
@@ -44,7 +44,8 @@ goto success
 :restart_prompt
 echo.
 echo Registry updated successfully!
-set /p restart="Would you like to restart Windows Explorer now to apply changes? (y/n): "
+echo.
+set /p restart="> Would you like to restart Windows Explorer now to apply changes? (y/n): "
 if /i "!restart!"=="y" (
     taskkill /f /im explorer.exe >nul 2>&1
     start explorer.exe
@@ -52,9 +53,9 @@ if /i "!restart!"=="y" (
 )
 if /i "!restart!"=="n" (
     echo.
-    echo changes will apply on next boot or when windows explorer is restarted
+    echo ^> Changes will apply on next boot or when windows explorer is restarted
     echo.
-    echo Press any key to close...
+    echo ^> Press any key to close...
     pause >nul
     exit /b
 )

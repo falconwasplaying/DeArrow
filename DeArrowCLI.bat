@@ -16,12 +16,13 @@ echo ^> DeArrow CLI
 echo ^>^> Made by falconwasplaying
 echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 echo.
-echo ^> Type 'remove' to hide shortcut arrows, or 'restore' to show them.
+echo ^> Type 'remove' to hide shortcut arrows, 'restore' to show them or 'exit' to exit.
 echo.
 set /p choice="> Choice: "
 
 if /i "!choice!"=="remove" goto remove
 if /i "!choice!"=="restore" goto restore
+if /i "!choice!"=="exit" exit
 echo.
 echo Invalid Input!
 timeout /t 2 >nul

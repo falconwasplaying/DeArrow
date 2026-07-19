@@ -34,7 +34,7 @@ A simple lightweight portable Windows utility designed to toggle shortcut overla
 
 The project is built using GCC (MinGW-w64) in MSYS2.
 
-1. Clone the repository to your Windows machine.
+1. Clone the repository to your Windows machine or download the source code zip from the releases section.
 2. Open the folder where you've cloned the repository.
 3. Run **`build.bat`** to compile the app (`DeArrow.exe`).
 4. When done, press any key to exit.

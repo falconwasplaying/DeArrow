@@ -3,8 +3,8 @@
 #include <winver.h>
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION             1,1,0,0
-PRODUCTVERSION          1,1,0,0
+FILEVERSION             1,1,1,0
+PRODUCTVERSION          1,1,1,0
 FILEFLAGSMASK           VS_FFI_FILEFLAGSMASK
 FILEFLAGS               0x0L
 FILEOS                  VOS_NT_WINDOWS32
@@ -17,12 +17,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName",      "Alfahad Sheikh"
             VALUE "FileDescription",  "DeArrow"
-            VALUE "FileVersion",      "1.1.0.0"
+            VALUE "FileVersion",      "1.1.1.0"
             VALUE "InternalName",     "DeArrow"
             VALUE "LegalCopyright",   "Copyright (C) 2026 Alfahad Sheikh"
             VALUE "OriginalFilename", "DeArrow.exe"
             VALUE "ProductName",      "DeArrow GUI"
-            VALUE "ProductVersion",   "1.1.0.0"
+            VALUE "ProductVersion",   "1.1.1.0"
         END
     END
     BLOCK "VarFileInfo"

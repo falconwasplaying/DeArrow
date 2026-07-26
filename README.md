@@ -1,27 +1,27 @@
 # DeArrow
 
-A simple lightweight portable Windows utility designed to toggle shortcut overlay arrows on and off, made to be as optimised as can be and is completely native to Windows, containing _zero_ external dependencies, thus only taking 7.5 KB of storage space for the GUI tool and 1.59 KB for the CLI tool, also able to run with a very low memory footprint, using 1.2 MB of ram for the GUI tool, your numbers may vary.
+A simple lightweight portable Windows utility designed to toggle shortcut overlay arrows on and off, made to be as optimised as can be and is completely native to Windows, containing _zero_ external dependencies, thus only taking 7.5 KB of storage space for the 64-bit exe and 1.59 KB for the CLI tool, also able to run with a very low memory footprint, using 1.2 MB of ram for the GUI tool, your numbers may vary.
 
 ## System Requirements
 
 * **Operating System**: Windows 7, Windows 8.1, Windows 10, or Windows 11.
-* **Architecture**: 64-bit (x86-64) for the GUI version (as of now), the CLI version will run on both 32-bit (x86-32) and 64-bit (x86-64) Windows versions.
+* **Architecture**: 64-bit (x86-64) and 32-bit (x86-32).
 * **Permissions**: Administrator privileges are _required_ for modifying system-wide icon configurations which requires writing to `HKEY_LOCAL_MACHINE`.
 
 ## How to Use:
 
 * **Two Formats Available**:
-  * **`DeArrow.exe`**: A simple graphical interface (only 7.5 KB).
-  * **`DeArrowCLI.bat`**: An interactive command-line tool (only 1.59 KB).
+  * **`dearrow-x64.exe/dearrow-x32.exe`**: A simple graphical interface (only 7.5 KB).
+  * **`dearrow-cli.bat`**: An interactive command-line tool (only 1.59 KB).
 
-### Graphical User Interface (`DeArrowGUI.exe`)
-1. Run `DeArrowGUI.exe`.
+### Graphical User Interface (`dearrow-x64.exe/dearrow-x32.exe`)
+1. Run `dearrow-x64.exe/dearrow-x32.exe`.
 2. Accept the User Account Control (UAC) prompt to run as Administrator.
 3. Click **Remove Arrows** to hide them, or **Restore Default** to bring them back.
 4. Click **Yes** when prompted to restart Windows Explorer to apply changes immediately, or **No** to exit.
 
-### Command-Line Interface (`DeArrowCLI.bat`)
-1. Run `DeArrowCLI.bat` (will run directly in your console window if you run it through cmd with admin previleges).
+### Command-Line Interface (`dearrow-cli.bat`)
+1. Run `dearrow-cli.bat` (will run directly in your console window if you run it through cmd with admin previleges).
 2. Accept the UAC prompt to run as Administrator.
 3. Type `remove` or `restore` (case-insensitive) and press **Enter**.
 4. Type `y` to restart Windows Explorer now, or `n` to exit.
@@ -32,11 +32,58 @@ A simple lightweight portable Windows utility designed to toggle shortcut overla
 
 ## How to Build the GUI App Yourself
 
-The project is built using GCC (MinGW-w64) in MSYS2.
+You'll need MinGW-w64 installed (via [MSYS2](https://www.msys2.org/) is easiest).
 
-1. Clone the repository to your Windows machine or download the source code zip from the releases section.
-2. Open the folder where you've cloned the repository.
-3. Run **`build.bat`** to compile the app (`DeArrow.exe`).
-4. When done, press any key to exit.
+### 64-bit build
 
-The build script is made to compile with important compiler flags (`-Os`, `-s`, `-ffunction-sections`, `-fdata-sections`, and custom entry points) to ensure the executable remains resourceful.
+Open the **MSYS2 UCRT64** (or **MINGW64**) terminal, and go to your project directory:
+
+```
+cd /c/users/username/documents/dearrow
+```
+> replace "/c/users/username/documents/dearrow" with your project directory
+
+Now run:
+
+```
+windres resources.rc -O coff -o resources.o
+```
+```
+g++ main.cpp resources.o -o dearrow-x64.exe -mwindows -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e WinMainCRTStartup -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections "-Wl,--gc-sections"
+```
+
+### 32-bit build
+
+Open the **MSYS2 UCRT64** (or **MINGW64**) terminal, and go to your project directory:
+
+```
+cd /c/users/username/documents/dearrow
+```
+> replace "/c/users/username/documents/dearrow" with your project directory
+
+Now run:
+```
+windres resources.rc -O coff -o resources.o
+```
+```
+g++ main.cpp resources.o -o dearrow-x32.exe -mwindows -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e WinMainCRTStartup -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections "-Wl,--gc-sections"
+```
+
+> Each MSYS2 shell (UCRT64/MINGW64/MINGW32) automatically points `g++` and
+> `windres` at the matching architecture — you don't need to type prefixed
+> binary names or full paths, just make sure you're in the right shell.
+
+### If not using MSYS2
+
+If you installed MinGW-w64 another way (e.g. WinLibs) and have both
+architectures available, use the prefixed binaries explicitly instead:
+
+```bash
+# 64-bit
+x86_64-w64-mingw32-windres resources.rc -O coff -o resources.o
+x86_64-w64-mingw32-g++ main.cpp resources.o -o dearrow-x64.exe -mwindows -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e WinMainCRTStartup -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections "-Wl,--gc-sections"
+
+# 32-bit
+i686-w64-mingw32-windres resources.rc -O coff -o resources.o
+i686-w64-mingw32-g++ main.cpp resources.o -o dearrow-x32.exe -mwindows -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e WinMainCRTStartup -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections "-Wl,--gc-sections"
+```

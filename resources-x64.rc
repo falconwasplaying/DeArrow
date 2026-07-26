@@ -21,7 +21,7 @@ BEGIN
             VALUE "InternalName",     "DeArrow"
             VALUE "LegalCopyright",   "Copyright (C) 2026 Alfahad Sheikh"
             VALUE "OriginalFilename", "DeArrow.exe"
-            VALUE "ProductName",      "DeArrow GUI"
+            VALUE "ProductName",      "DeArrow"
             VALUE "ProductVersion",   "1.1.1.0"
         END
     END

@@ -1,3 +1,5 @@
-/DeArrow.exe
-/resources.o
+/dearrow-x64.exe
+/dearrow-x32.exe
+/resources-x64.o
+/resources-x32.o
 /build.bat

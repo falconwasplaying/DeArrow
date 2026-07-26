@@ -46,7 +46,7 @@ cd /c/users/username/documents/dearrow
 Now run:
 
 ```
-windres resources.rc -O coff -o resources.o
+windres resources-x64.rc -O coff -o resources.o
 ```
 ```
 g++ main.cpp resources.o -o dearrow-x64.exe -mwindows -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e WinMainCRTStartup -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections "-Wl,--gc-sections"

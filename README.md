@@ -46,10 +46,10 @@ cd /c/users/username/documents/dearrow
 Now run:
 
 ```
-windres resources.rc -O coff -o resources.o
+windres resources-x64.rc -O coff -o resources-x64.o
 ```
 ```
-g++ main.cpp resources.o -o dearrow-x64.exe -mwindows -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e WinMainCRTStartup -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections "-Wl,--gc-sections"
+g++ main.cpp resources-x64.o -o dearrow-x64.exe -mwindows -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e WinMainCRTStartup -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections "-Wl,--gc-sections"
 ```
 
 ### 32-bit build
@@ -63,10 +63,10 @@ cd /c/users/username/documents/dearrow
 
 Now run:
 ```
-windres resources.rc -O coff -o resources.o
+windres resources-x32.rc -O coff -o resources-x32.o
 ```
 ```
-g++ main.cpp resources.o -o dearrow-x32.exe -mwindows -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e WinMainCRTStartup -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections "-Wl,--gc-sections"
+g++ main.cpp resources-x32.o -o dearrow-x32.exe -mwindows -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e WinMainCRTStartup -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections "-Wl,--gc-sections"
 ```
 
 > Each MSYS2 shell (UCRT64/MINGW64/MINGW32) automatically points `g++` and

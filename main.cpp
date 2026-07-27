@@ -145,7 +145,7 @@ void ToggleArrows(bool remove, HWND hWnd) {
     LSTATUS status = RegCreateKeyExA(
         HKEY_LOCAL_MACHINE,
         "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons", 0,
-        NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hKey, NULL
+        NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE | KEY_WOW64_64KEY, NULL, &hKey, NULL
     );
 
     bool success = false;

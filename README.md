@@ -11,8 +11,8 @@ A simple lightweight portable Windows utility designed to toggle shortcut overla
 ## How to Use:
 
 * **Two Formats Available**:
-  * **`dearrow-x64.exe/dearrow-x32.exe`**: A simple graphical interface (only 7.5 KB).
-  * **`dearrow-cli.bat`**: An interactive command-line tool (only 1.59 KB).
+  * **`dearrow-x64.exe/dearrow-x32.exe`**: A simple graphical interface.
+  * **`dearrow-cli.bat`**: An interactive command-line tool.
 
 ### Graphical User Interface (`dearrow-x64.exe/dearrow-x32.exe`)
 1. Run `dearrow-x64.exe/dearrow-x32.exe`.
@@ -66,7 +66,7 @@ Now run:
 windres resources-x32.rc -O coff -o resources-x32.o
 ```
 ```
-g++ main.cpp resources-x32.o -o dearrow-x32.exe -mwindows -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e WinMainCRTStartup -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections "-Wl,--gc-sections"
+g++ main.cpp resources-x32.o -o dearrow-x32.exe -mwindows -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e _WinMainCRTStartup -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections -static-libgcc -Wl,--gc-sections
 ```
 
 > Each MSYS2 shell (UCRT64/MINGW64/MINGW32) automatically points `g++` and

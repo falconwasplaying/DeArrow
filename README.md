@@ -34,7 +34,7 @@ A simple lightweight portable Windows utility designed to toggle shortcut overla
 
 You'll need MinGW-w64/UCRT64 and MinGW-w32 installed (via [MSYS2](https://www.msys2.org/) is easiest).
 
-### 64-bit build
+### 64-bit gui build
 
 Open the **MSYS2 UCRT64** (or **MINGW64**) terminal, and go to your project directory:
 
@@ -52,7 +52,7 @@ windres resources-x64.rc -O coff -o resources-x64.o
 g++ main.cpp resources-x64.o -o dearrow-x64.exe -mwindows -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e WinMainCRTStartup -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections "-Wl,--gc-sections"
 ```
 
-### 32-bit build
+### 32-bit gui build
 
 Open the **MINGW32** terminal, and go to your project directory:
 
@@ -69,13 +69,11 @@ windres resources-x32.rc -O coff -o resources-x32.o
 g++ main.cpp resources-x32.o -o dearrow-x32.exe -mwindows -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e _WinMainCRTStartup@0 -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections -static-libgcc -Wl,--gc-sections
 ```
 
-> Each MSYS2 shell (UCRT64/MINGW64/MINGW32) automatically points `g++` and
-> `windres` at the matching architecture — you don't need to type prefixed
-> binary names or full paths, just make sure you're in the right shell.
+> Each MSYS2 shell (UCRT64/MINGW64/MINGW32) automatically points `g++` and `windres` at the matching architecture — you don't need to type prefixed binary names or full paths, just make sure you're in the right shell.
 
 ## How to build the CLI app yourself:
 
-### 64-bit build
+### 64-bit cli build
 
 Open the **MSYS2 UCRT64** (or **MINGW64**) terminal, and go to your project directory:
 
@@ -93,7 +91,7 @@ windres resources-cli-x64.rc -O coff -o rsc-cli-x64.o
 g++ cli.cpp rsc.o -o dearrow-cli-x64.exe -mconsole -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e mainCRTStartup -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections -Wl,--gc-sections
 ```
 
-### 32-bit build
+### 32-bit cli build
 
 Open the **MINGW32** terminal, and go to your project directory:
 

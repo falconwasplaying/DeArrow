@@ -12,7 +12,7 @@ A simple lightweight portable Windows utility designed to toggle shortcut overla
 
 * **Two Formats Available**:
   * **`dearrow-x64.exe/dearrow-x32.exe`**: A simple graphical interface.
-  * **`dearrow-cli.bat`**: An interactive command-line tool.
+  * **`dearrow-cli-x64.exe/dearrow-cli-x32.exe`**: An interactive command-line tool.
 
 ### Graphical User Interface (`dearrow-x64.exe/dearrow-x32.exe`)
 1. Run `dearrow-x64.exe/dearrow-x32.exe`.

@@ -73,6 +73,43 @@ g++ main.cpp resources-x32.o -o dearrow-x32.exe -mwindows -lgdi32 -ladvapi32 -ls
 > `windres` at the matching architecture — you don't need to type prefixed
 > binary names or full paths, just make sure you're in the right shell.
 
+## How to build the CLI app yourself:
+
+### 64-bit build
+
+Open the **MSYS2 UCRT64** (or **MINGW64**) terminal, and go to your project directory:
+
+```
+cd /c/users/username/documents/dearrow
+```
+> replace "/c/users/username/documents/dearrow" with your project directory
+
+Now run:
+
+```
+windres resources-cli-x64.rc -O coff -o rsc-cli-x64.o
+```
+```
+g++ cli.cpp rsc.o -o dearrow-cli-x64.exe -mconsole -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e mainCRTStartup -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections -Wl,--gc-sections
+```
+
+### 32-bit build
+
+Open the **MINGW32** terminal, and go to your project directory:
+
+```
+cd /c/users/username/documents/dearrow
+```
+> replace "/c/users/username/documents/dearrow" with your project directory
+
+Now run:
+```
+windres resources-cli-x32.rc -O coff -o rsc-cli-x32.o
+```
+```
+g++ cli.cpp rsc.o -o dearrow-cli-x32.exe -mconsole -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e _mainCRTStartup@0 -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections -Wl,--gc-sections
+```
+
 ### If not using MSYS2
 
 If you installed MinGW-w64 another way (e.g. WinLibs) and have both

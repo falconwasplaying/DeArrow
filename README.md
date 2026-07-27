@@ -54,7 +54,7 @@ g++ main.cpp resources-x64.o -o dearrow-x64.exe -mwindows -lgdi32 -ladvapi32 -ls
 
 ### 32-bit build
 
-Open the **MSYS2 UCRT64** (or **MINGW64**) terminal, and go to your project directory:
+Open the **MINGW32** terminal, and go to your project directory:
 
 ```
 cd /c/users/username/documents/dearrow

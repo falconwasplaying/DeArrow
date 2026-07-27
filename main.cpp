@@ -1,5 +1,144 @@
+#define _WIN32_WINNT 0x0600
 #include <shlobj.h>
 #include <windows.h>
+
+bool ExtractBlankIcon(char *outPath, DWORD maxLen) {
+    char appData[MAX_PATH];
+    if (ExpandEnvironmentStringsA("%LOCALAPPDATA%\\DeArrow", appData, sizeof(appData)) == 0) {
+        return false;
+    }
+
+    CreateDirectoryA(appData, NULL);
+    SetFileAttributesA(appData, FILE_ATTRIBUTE_HIDDEN);
+
+    wsprintfA(outPath, "%s\\blank.ico", appData);
+
+    HRSRC hRes = FindResourceA(NULL, MAKEINTRESOURCE(101), RT_RCDATA);
+    if (hRes == NULL) return false;
+
+    HGLOBAL hData = LoadResource(NULL, hRes);
+    if (hData == NULL) return false;
+
+    DWORD size = SizeofResource(NULL, hRes);
+    void *pData = LockResource(hData);
+    if (pData == NULL || size == 0) return false;
+
+    SetFileAttributesA(outPath, FILE_ATTRIBUTE_NORMAL);
+    HANDLE hFile = CreateFileA(outPath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_HIDDEN, NULL);
+    if (hFile == INVALID_HANDLE_VALUE) {
+        return false;
+    }
+
+    DWORD written = 0;
+    WriteFile(hFile, pData, size, &written, NULL);
+    CloseHandle(hFile);
+
+    return (written == size);
+}
+
+void RemoveBlankIconFile() {
+    char appDataPath[MAX_PATH];
+    if (ExpandEnvironmentStringsA("%LOCALAPPDATA%\\DeArrow\\blank.ico", appDataPath, sizeof(appDataPath)) > 0) {
+        SetFileAttributesA(appDataPath, FILE_ATTRIBUTE_NORMAL);
+        DeleteFileA(appDataPath);
+    }
+    if (ExpandEnvironmentStringsA("%LOCALAPPDATA%\\DeArrow", appDataPath, sizeof(appDataPath)) > 0) {
+        RemoveDirectoryA(appDataPath);
+    }
+}
+
+bool EnablePrivilege(const char *privilegeName) {
+    HANDLE hToken = NULL;
+    if (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken)) {
+        TOKEN_PRIVILEGES tp;
+        LUID luid;
+        if (LookupPrivilegeValueA(NULL, privilegeName, &luid)) {
+            tp.PrivilegeCount = 1;
+            tp.Privileges[0].Luid = luid;
+            tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+            SetLastError(0);
+            AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(TOKEN_PRIVILEGES), NULL, NULL);
+            DWORD err = GetLastError();
+            if (err != ERROR_SUCCESS) {
+                char buf[128];
+                wsprintfA(buf, "AdjustTokenPrivileges(%s) returned error: %d", privilegeName, err);
+                MessageBoxA(NULL, buf, "Diag: EnablePrivilege", MB_OK | MB_ICONWARNING);
+            }
+        }
+        CloseHandle(hToken);
+    } else {
+        char buf[128];
+        wsprintfA(buf, "OpenProcessToken(Self) failed: %d", GetLastError());
+        MessageBoxA(NULL, buf, "Diag: OpenProcessToken Self", MB_OK | MB_ICONERROR);
+    }
+    return true;
+}
+
+void RestartExplorerUnelevated() {
+    EnablePrivilege("SeImpersonatePrivilege");
+
+    HWND hWndTray = FindWindowA("Shell_TrayWnd", NULL);
+    HANDLE hNewToken = NULL;
+    HANDLE hExplorerProc = NULL;
+
+    if (hWndTray != NULL) {
+        DWORD dwPID = 0;
+        GetWindowThreadProcessId(hWndTray, &dwPID);
+        if (dwPID != 0) {
+            hExplorerProc = OpenProcess(PROCESS_QUERY_INFORMATION | SYNCHRONIZE, FALSE, dwPID);
+            if (hExplorerProc != NULL) {
+                HANDLE hToken = NULL;
+                if (OpenProcessToken(hExplorerProc, TOKEN_DUPLICATE | TOKEN_ASSIGN_PRIMARY | TOKEN_QUERY, &hToken)) {
+                    if (!DuplicateTokenEx(hToken, TOKEN_ALL_ACCESS, NULL, SecurityImpersonation, TokenPrimary, &hNewToken)) {
+                        char buf[128];
+                        wsprintfA(buf, "DuplicateTokenEx failed: %d", GetLastError());
+                        MessageBoxA(NULL, buf, "Diag: DuplicateTokenEx", MB_OK | MB_ICONERROR);
+                    }
+                    CloseHandle(hToken);
+                } else {
+                    char buf[128];
+                    wsprintfA(buf, "OpenProcessToken(Explorer) failed: %d", GetLastError());
+                    MessageBoxA(NULL, buf, "Diag: OpenProcessToken Explorer", MB_ICONERROR);
+                }
+            }
+        }
+    }
+
+    if (hWndTray != NULL) {
+        PostMessageA(hWndTray, WM_USER + 436, 0, 0);
+    }
+
+    if (hExplorerProc != NULL) {
+        WaitForSingleObject(hExplorerProc, 5000);
+        CloseHandle(hExplorerProc);
+    } else {
+        Sleep(2000);
+    }
+
+    if (hNewToken != NULL) {
+        STARTUPINFOW si = { sizeof(si) };
+        PROCESS_INFORMATION pi = { 0 };
+        wchar_t cmd[MAX_PATH];
+        if (ExpandEnvironmentStringsW(L"%SystemRoot%\\explorer.exe", cmd, MAX_PATH) == 0) {
+            lstrcpyW(cmd, L"C:\\Windows\\explorer.exe");
+        }
+        SetLastError(0);
+        if (CreateProcessWithTokenW(hNewToken, LOGON_WITH_PROFILE, NULL, cmd, 0, NULL, NULL, &si, &pi)) {
+            CloseHandle(pi.hProcess);
+            CloseHandle(pi.hThread);
+        } else {
+            DWORD err = GetLastError();
+            char buf[128];
+            wsprintfA(buf, "CreateProcessWithTokenW failed: %d\nFalling back to WinExec...", err);
+            MessageBoxA(NULL, buf, "Diag: CreateProcessWithTokenW", MB_OK | MB_ICONERROR);
+            WinExec("explorer.exe", SW_SHOW);
+        }
+        CloseHandle(hNewToken);
+    } else {
+        MessageBoxA(NULL, "hNewToken was NULL! Falling back to WinExec...", "Diag: Token Null", MB_OK | MB_ICONWARNING);
+        WinExec("explorer.exe", SW_SHOW);
+    }
+}
 
 void ToggleArrows(bool remove, HWND hWnd) {
     HKEY hKey;
@@ -12,14 +151,20 @@ void ToggleArrows(bool remove, HWND hWnd) {
     bool success = false;
     if (status == ERROR_SUCCESS) {
         if (remove) {
-            const char *iconPath = "shell32.dll,50";
-            status = RegSetValueExA(hKey, "29", 0, REG_SZ, (const BYTE *)iconPath, lstrlenA(iconPath) + 1);
-            if (status == ERROR_SUCCESS) {
-                success = true;
+            char iconPath[MAX_PATH];
+            char regValue[MAX_PATH + 10];
+            if (ExtractBlankIcon(iconPath, sizeof(iconPath))) {
+                wsprintfA(regValue, "%s,0", iconPath);
+                status = RegSetValueExA(hKey, "29", 0, REG_SZ, (const BYTE *)regValue, lstrlenA(regValue) + 1);
+                if (status == ERROR_SUCCESS) {
+                    success = true;
+                } else {
+                    char buf[100];
+                    wsprintfA(buf, "RegSetValueExA failed with error: %d", status);
+                    MessageBoxA(hWnd, buf, "Error", MB_ICONERROR);
+                }
             } else {
-                char buf[100];
-                wsprintfA(buf, "RegSetValueExA failed with error: %d", status);
-                MessageBoxA(hWnd, buf, "Error", MB_ICONERROR);
+                MessageBoxA(hWnd, "Failed to create hidden blank icon file.", "Error", MB_ICONERROR);
             }
         } else {
             status = RegDeleteValueA(hKey, "29");
@@ -39,16 +184,15 @@ void ToggleArrows(bool remove, HWND hWnd) {
     }
 
     if (success) {
+        SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
+
         int choice = MessageBoxA(
             hWnd,
             "Registry updated successfully!\n\nWindows Explorer must be restarted to apply the changes. Would you like to restart Explorer now?",
             "Restart Required", MB_YESNO | MB_ICONQUESTION
         );
         if (choice == IDYES) {
-            HWND hWndTray = FindWindowA("Shell_TrayWnd", NULL);
-            if (hWndTray) PostMessageA(hWndTray, WM_USER + 436, 0, 0);
-            Sleep(1500);
-            WinExec("explorer.exe", SW_SHOW);
+            RestartExplorerUnelevated();
         } else {
             ShowWindow(hWnd, SW_HIDE);
             MessageBoxA(
@@ -56,6 +200,10 @@ void ToggleArrows(bool remove, HWND hWnd) {
                 "Changes will apply on next boot or when Windows Explorer is restarted.",
                 "Notice", MB_OK | MB_ICONINFORMATION
             );
+        }
+
+        if (!remove) {
+            RemoveBlankIconFile();
         }
     }
 }

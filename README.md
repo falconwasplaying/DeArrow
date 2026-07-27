@@ -32,7 +32,7 @@ A simple lightweight portable Windows utility designed to toggle shortcut overla
 
 ## How to Build the GUI App Yourself
 
-You'll need MinGW-w64 installed (via [MSYS2](https://www.msys2.org/) is easiest).
+You'll need MinGW-w64/UCRT64 and MinGW-w32 installed (via [MSYS2](https://www.msys2.org/) is easiest).
 
 ### 64-bit build
 

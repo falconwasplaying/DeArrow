@@ -1,4 +1,5 @@
 1 24 "manifest.xml"
+101 RCDATA "blank.ico"
 
 #include <winver.h>
 

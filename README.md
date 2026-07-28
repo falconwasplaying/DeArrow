@@ -117,7 +117,7 @@ windres resources-cli-x32.rc -O coff -o rsc-cli-x32.o
 ```
 
 ```bash
-g++ cli.cpp rsc-cli-x32.o -o dearrow-cli-x32.exe -mconsole -ladvapi32 -lshell32 -nostartfiles -e _mainCRTStartup@0 -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections -Wl,--gc-sections
+g++ cli.cpp rsc-cli-x32.o -o dearrow-cli-x32.exe -mconsole -ladvapi32 -lshell32 -nostartfiles -e _mainCRTStartup@0 -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections -static-libgcc -Wl,--gc-sections
 ```
 
 ### If not using MSYS2

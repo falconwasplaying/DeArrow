@@ -1,6 +1,8 @@
 /dearrow-x64.exe
 /dearrow-x32.exe
-/resources-x64.o
-/resources-x32.o
+/rsc-x64.o
+/rsc-x32.o
+/rsc-cli-x64.o
+/rsc-cli-x32.o
 /build.bat
 /.clangd

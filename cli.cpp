@@ -131,6 +131,18 @@ void RestartExplorerUnelevated() {
   }
 }
 
+void ClearScreen() {
+  HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+  CONSOLE_SCREEN_BUFFER_INFO csbi;
+  if (!GetConsoleScreenBufferInfo(hOut, &csbi)) return;
+  DWORD cellCount = csbi.dwSize.X * csbi.dwSize.Y;
+  COORD topLeft = {0, 0};
+  DWORD written;
+  FillConsoleOutputCharacterA(hOut, ' ', cellCount, topLeft, &written);
+  FillConsoleOutputAttribute(hOut, csbi.wAttributes, cellCount, topLeft, &written);
+  SetConsoleCursorPosition(hOut, topLeft);
+}
+
 void PrintStr(const char *str) {
   HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
   if (hOut && hOut != INVALID_HANDLE_VALUE) {
@@ -235,8 +247,7 @@ extern "C" void __stdcall mainCRTStartup() {
   char input[64];
 
   while (true) {
-    PrintStr("> Type 'remove' to hide shortcut arrows, 'restore' to show them "
-             "or 'exit' to exit.\n\n");
+    PrintStr("> Type 'remove' (or 'rm') to hide shortcut arrows, 'restore' (or 'rs') to show them, or 'exit' to exit.\n\n");
     PrintStr("> Choice: ");
 
     if (!ReadLine(input, sizeof(input))) {
@@ -248,14 +259,14 @@ extern "C" void __stdcall mainCRTStartup() {
     }
 
     bool remove = false;
-    if (StringEqualsIgnoreCase(input, "remove")) {
+    if (StringEqualsIgnoreCase(input, "remove") || StringEqualsIgnoreCase(input, "rm")) {
       remove = true;
-    } else if (StringEqualsIgnoreCase(input, "restore")) {
+    } else if (StringEqualsIgnoreCase(input, "restore") || StringEqualsIgnoreCase(input, "rs")) {
       remove = false;
     } else {
       PrintStr("\nInvalid Input!\n");
       Sleep(1500);
-      system("cls");
+      ClearScreen();
       continue;
     }
 

@@ -8,22 +8,24 @@ A simple lightweight portable Windows utility designed to toggle shortcut overla
 * **Architecture**: 64-bit (x86-64) and 32-bit (x86-32).
 * **Permissions**: Administrator privileges are _required_ for modifying system-wide icon configurations which requires writing to `HKEY_LOCAL_MACHINE`.
 
-## How to Use:
+## How to Use
 
 * **Two Formats Available**:
-  * **`dearrow-x64.exe/dearrow-x32.exe`**: A simple graphical interface.
-  * **`dearrow-cli-x64.exe/dearrow-cli-x32.exe`**: An interactive command-line tool.
+  * **`dearrow-x64.exe / dearrow-x32.exe`**: A simple graphical interface.
+  * **`dearrow-cli-x64.exe / dearrow-cli-x32.exe`**: An interactive command-line tool.
 
-### Graphical User Interface (`dearrow-x64.exe/dearrow-x32.exe`)
-1. Run `dearrow-x64.exe/dearrow-x32.exe`.
+### Graphical User Interface (`dearrow-x64.exe / dearrow-x32.exe`)
+
+1. Run `dearrow-x64.exe` or `dearrow-x32.exe`.
 2. Accept the User Account Control (UAC) prompt to run as Administrator.
 3. Click **Remove Arrows** to hide them, or **Restore Default** to bring them back.
 4. Click **Yes** when prompted to restart Windows Explorer to apply changes immediately, or **No** to exit.
 
-### Command-Line Interface (`dearrow-cli.bat`)
-1. Run `dearrow-cli.bat` (will run directly in your console window if you run it through cmd with admin previleges).
+### Command-Line Interface (`dearrow-cli-x64.exe / dearrow-cli-x32.exe`)
+
+1. Run `dearrow-cli-x64.exe` or `dearrow-cli-x32.exe`.
 2. Accept the UAC prompt to run as Administrator.
-3. Type `remove` or `restore` (case-insensitive) and press **Enter**.
+3. Type `remove` (or `rm`) or `restore` (or `rs`) (case-insensitive) and press **Enter**.
 4. Type `y` to restart Windows Explorer now, or `n` to exit.
 
 > If you choose to not restart Windows Explorer immediately, the changes may remain until next boot or whenever Windows Explorer is restarted, whether that's manually or not. This applies to both the CLI tool and the GUI application.
@@ -38,17 +40,19 @@ You'll need MinGW-w64/UCRT64 and MinGW-w32 installed (via [MSYS2](https://www.ms
 
 Open the **MSYS2 UCRT64** (or **MINGW64**) terminal, and go to your project directory:
 
-```
+```bash
 cd /c/users/username/documents/dearrow
 ```
+
 > replace "/c/users/username/documents/dearrow" with your project directory
 
 Now run:
 
-```
+```bash
 windres resources-x64.rc -O coff -o rsc-x64.o
 ```
-```
+
+```bash
 g++ main.cpp rsc-x64.o -o dearrow-x64.exe -mwindows -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e WinMainCRTStartup -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections "-Wl,--gc-sections"
 ```
 
@@ -56,38 +60,43 @@ g++ main.cpp rsc-x64.o -o dearrow-x64.exe -mwindows -lgdi32 -ladvapi32 -lshell32
 
 Open the **MINGW32** terminal, and go to your project directory:
 
-```
+```bash
 cd /c/users/username/documents/dearrow
 ```
+
 > replace "/c/users/username/documents/dearrow" with your project directory
 
 Now run:
-```
+
+```bash
 windres resources-x32.rc -O coff -o rsc-x32.o
 ```
-```
+
+```bash
 g++ main.cpp rsc-x32.o -o dearrow-x32.exe -mwindows -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e _WinMainCRTStartup@0 -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections -static-libgcc -Wl,--gc-sections
 ```
 
 > Each MSYS2 shell (UCRT64/MINGW64/MINGW32) automatically points `g++` and `windres` at the matching architecture — you don't need to type prefixed binary names or full paths, just make sure you're in the right shell.
 
-## How to build the CLI app yourself:
+## How to build the CLI app yourself
 
 ### 64-bit cli build
 
 Open the **MSYS2 UCRT64** (or **MINGW64**) terminal, and go to your project directory:
 
-```
+```bash
 cd /c/users/username/documents/dearrow
 ```
+
 > replace "/c/users/username/documents/dearrow" with your project directory
 
 Now run:
 
-```
+```bash
 windres resources-cli-x64.rc -O coff -o rsc-cli-x64.o
 ```
-```
+
+```bash
 g++ cli.cpp rsc-cli-x64.o -o dearrow-cli-x64.exe -mconsole -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e mainCRTStartup -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections -Wl,--gc-sections
 ```
 
@@ -95,16 +104,19 @@ g++ cli.cpp rsc-cli-x64.o -o dearrow-cli-x64.exe -mconsole -lgdi32 -ladvapi32 -l
 
 Open the **MINGW32** terminal, and go to your project directory:
 
-```
+```bash
 cd /c/users/username/documents/dearrow
 ```
+
 > replace "/c/users/username/documents/dearrow" with your project directory
 
 Now run:
-```
+
+```bash
 windres resources-cli-x32.rc -O coff -o rsc-cli-x32.o
 ```
-```
+
+```bash
 g++ cli.cpp rsc-cli-x32.o -o dearrow-cli-x32.exe -mconsole -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e _mainCRTStartup@0 -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections -Wl,--gc-sections
 ```
 

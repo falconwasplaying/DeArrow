@@ -28,6 +28,7 @@ A simple lightweight portable Windows utility designed to toggle shortcut overla
 3. Type `remove` (or `rm`) or `restore` (or `rs`) (case-insensitive) and press **Enter**.
 4. Type `y` to restart Windows Explorer now, or `n` to exit.
 
+> [!Note]
 > If you choose to not restart Windows Explorer immediately, the changes may remain until next boot or whenever Windows Explorer is restarted, whether that's manually or not. This applies to both the CLI tool and the GUI application.
 
 ---
@@ -76,6 +77,7 @@ windres resources-x32.rc -O coff -o rsc-x32.o
 g++ main.cpp rsc-x32.o -o dearrow-x32.exe -mwindows -lgdi32 -ladvapi32 -lshell32 -nostartfiles -e _WinMainCRTStartup@0 -Os -s -fno-exceptions -fno-rtti -ffunction-sections -fdata-sections -static-libgcc -Wl,--gc-sections
 ```
 
+> [!Tip]
 > Each MSYS2 shell (UCRT64/MINGW64/MINGW32) automatically points `g++` and `windres` at the matching architecture — you don't need to type prefixed binary names or full paths, just make sure you're in the right shell.
 
 ## How to build the CLI app yourself
@@ -88,6 +90,7 @@ Open the **MSYS2 UCRT64** (or **MINGW64**) terminal, and go to your project dire
 cd /c/users/username/documents/dearrow
 ```
 
+> [!Important]
 > replace "/c/users/username/documents/dearrow" with your project directory
 
 Now run:
@@ -108,6 +111,7 @@ Open the **MINGW32** terminal, and go to your project directory:
 cd /c/users/username/documents/dearrow
 ```
 
+> [!Important]
 > replace "/c/users/username/documents/dearrow" with your project directory
 
 Now run:

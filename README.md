@@ -39,7 +39,7 @@ You'll need MinGW-w64/UCRT64 and MinGW-w32 installed (via [MSYS2](https://www.ms
 
 ### 64-bit gui build
 
-Open the **MSYS2 UCRT64** (or **MINGW64**) terminal, and go to your project directory:
+Open the **MSYS2 UCRT64** (or **MinGW-w64**) terminal, and go to your project directory:
 
 ```bash
 cd /c/users/username/documents/dearrow
@@ -59,7 +59,7 @@ g++ main.cpp rsc-x64.o -o dearrow-x64.exe -mwindows -lgdi32 -ladvapi32 -lshell32
 
 ### 32-bit gui build
 
-Open the **MINGW32** terminal, and go to your project directory:
+Open the **MinGW-w32** terminal, and go to your project directory:
 
 ```bash
 cd /c/users/username/documents/dearrow
@@ -78,13 +78,13 @@ g++ main.cpp rsc-x32.o -o dearrow-x32.exe -mwindows -lgdi32 -ladvapi32 -lshell32
 ```
 
 > [!Tip]
-> Each MSYS2 shell (UCRT64/MINGW64/MINGW32) automatically points `g++` and `windres` at the matching architecture — you don't need to type prefixed binary names or full paths, just make sure you're in the right shell.
+> Each MSYS2 shell (UCRT64/MinGW-w64/MinGW-w32) automatically points `g++` and `windres` at the matching architecture — you don't need to type prefixed binary names or full paths, just make sure you're in the right shell.
 
 ## How to build the CLI app yourself
 
 ### 64-bit cli build
 
-Open the **MSYS2 UCRT64** (or **MINGW64**) terminal, and go to your project directory:
+Open the **MSYS2 UCRT64** (or **MinGW-w64**) terminal, and go to your project directory:
 
 ```bash
 cd /c/users/username/documents/dearrow
@@ -105,7 +105,7 @@ g++ cli.cpp rsc-cli-x64.o -o dearrow-cli-x64.exe -mconsole -ladvapi32 -lshell32 
 
 ### 32-bit cli build
 
-Open the **MINGW32** terminal, and go to your project directory:
+Open the **MinGW-w32** terminal, and go to your project directory:
 
 ```bash
 cd /c/users/username/documents/dearrow
